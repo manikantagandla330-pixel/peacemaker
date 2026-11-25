@@ -1,35 +1,35 @@
 EXERCISE 12 - UBUNTU VM AND WEB APPLICATION DEPLOYMENT
 ============================================================
 
-The uploaded lab record lists this exercise but does not provide its detailed execution commands.
-
-AWS EC2 DEPLOYMENT COMMANDS
-
-1. AWS Console -> EC2 -> Launch Instance.
-2. Select Ubuntu Server.
-3. Create/download key pair.
-4. Security Group: allow SSH 22 and HTTP 80.
-5. Launch instance.
-
-CONNECT FROM WINDOWS POWERSHELL
-ssh -i "YOUR_KEY.pem" ubuntu@YOUR_PUBLIC_IP
-
-UPDATE UBUNTU
+modules
+if not (start lab)
+search Ec2
+launch instance
+name
+ubuntu
+create new pair
+launch instance
+connect to instrance
+ssh -i "____.pem" ubuntu@public ipv4
+connect
+commands:
 sudo apt update
-sudo apt upgrade -y
+sudo apt install git docker.io -y
+sudo systemctl start docker
+sudo systemctl enable docker
+git clone https://github.com/Kumbhambhargavi75/CEMS.git
+ls
+cd CEMS
+ls
+nano Dockerfile
 
-INSTALL JAVA
-sudo apt install openjdk-17-jdk -y
-java -version
+FROM nginx:alpine
+COPY . /usr/share/nginx/html
 
-INSTALL TOMCAT
-sudo apt install tomcat10 -y
-sudo systemctl start tomcat10
-sudo systemctl enable tomcat10
-sudo systemctl status tomcat10
+sudo docker build -t cems-app .
+sudo docker run -d --name cems-container -p 8087:8080 cems-app
+sudo docker ps
+sudo docker logs cems-container
+http://YOUR_EC2_PUBLIC_IP:8087
 
-DEPLOY WAR
-sudo cp yourapp.war /var/lib/tomcat10/webapps/
 
-OPEN
-http://YOUR_PUBLIC_IP:8080/yourapp
